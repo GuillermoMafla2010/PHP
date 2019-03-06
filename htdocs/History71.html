@@ -1,0 +1,62 @@
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+<title>Documento sin t&iacute;tulo</title>
+<style>
+#contenido span{
+
+
+cursor:pointer;
+}
+
+#contenido{
+padding:30px;
+float:left;
+border:2px dashed 
+#000000;
+}
+
+#zonadatos{
+width:600px;
+padding:30px;
+margin_left:30px;
+float:left;
+border:2px dashed #003300;}
+
+</style>
+<script>
+function comenzar(){
+zonadatos=document.getElementById("zonadatos");
+var url=document.getElementById("url");
+url.addEventListener("click",cambia_url,false);
+}
+
+function cambia_url(){
+
+zonadatos.innerHTML="Esatas en la Pagina 2";
+window.history.pushState(null,null,"pagina2.html");
+
+
+}
+
+
+
+
+window.addEventListener("load",comenzar,false);
+</script>
+</head>
+
+<body>
+
+<section id="contenido">
+
+Este contenido no se actualiza . No cambia <br>
+
+<span id="url"> Ir a la pagina 2 </span>
+
+</section>
+
+<aside id="zonadatos"></aside>
+
+</body>
+</html>

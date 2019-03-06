@@ -1,0 +1,77 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>Documento sin título</title>
+<link rel="stylesheet" href="estilos.css">
+<script>
+
+function comenzar(){
+zonadatos=document.getElementById("zonadatos");
+zonaprogreso=document.getElementById("zonaprogreso");
+var boton=document.getElementById("boton");
+boton.addEventListener("click",leer,false);
+}
+
+
+function leer(){
+var url="video_pruebas.mp4";
+var solicitud=new XMLHttpRequest();
+solicitud.addEventListener("loadstart",barra,false);
+solicitud.addEventListener("progress",estado_barra,false);
+solicitud.addEventListener("load",mostrar,false);
+solicitud.open("GET",url,true);
+solicitud.send(null);
+}
+
+function barra(){
+zonadatos.innerHTML="<progress value='0' max='100'></progress>";
+}
+
+function estado_barra(e){
+
+var porcentaje=parseInt(e.loaded/e.total*100);
+var barraprogreso=zonadatos.querySelector("progress");
+barraprogreso.value=porcentaje;
+zonaprogreso.innerHTML=porcentaje+"%";
+
+}
+
+function mostrar(e){
+zonadatos.innerHTML="Archivo leido";
+}
+
+
+window.addEventListener("load",comenzar,false);
+</script>
+</head>
+
+<body>
+
+<div id="contenedor">
+
+	<section id="zonaformulario">
+    
+    	<form name="formulario">
+    
+    		<p>Nombre:<br><input type="text" name="entrada" id="origen" required></p>
+           
+		  
+           
+		    
+            <p><input type="button" name="boton" id="boton" value="Aceptar"></p>
+		</form>    
+    </section>
+    
+    <section id="zonadatos">
+    
+    	No hay información     </section>
+		
+		<section id="zonaprogreso">
+		
+		0%
+		
+		</section>
+</div>
+</body>
+</html>

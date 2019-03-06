@@ -1,0 +1,74 @@
+<!doctype html>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+<title>Documento sin t&iacute;tulo</title>
+<style>
+#zonaformularios{
+margin-left:100px;
+padding:20px;
+border:none
+}
+
+#zonadatos{
+width:500px;
+margin:20px 20px;
+padding:20px;
+border:2px dashed #003300;
+float:left;
+}
+
+#zonarecepcion{
+
+width:500px;
+height:350px;
+margin:50px 700px;
+padding:20px;
+border:2px dotted #0000FF;
+
+
+}
+
+</style>
+
+
+<script>
+
+function comenzar(){
+var boton=document.getElementById("boton");
+boton.addEventListener("click",enviar,false);
+}
+
+function enviar(){
+var mensaje=document.getElementById("mensaje").value;
+var iframe=document.getElementById("iframe");
+iframe.contentWindow.postMessage(mensaje,"*");
+
+}
+
+
+window.addEventListener("load",comenzar,false);
+</script>
+</head>
+
+<body>
+
+<section id="zonadatos">
+<iframe id="iframe" src="interno_iframe.html" width="500" height="350"> </iframe>
+</section>
+
+
+
+
+<section id="zonaformularios">
+
+<form name="formulario" >
+Mensaje: <p><textarea name="mensaje" cols="45" rows="10" id="mensaje" required></textarea></p>
+<p> <input type="button" id="boton" value="Enviar Mensaje">
+</p>
+
+</form>
+
+</section>
+</body>
+</html>

@@ -1,0 +1,69 @@
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+<title>Documento sin t&iacute;tulo</title>
+<style>
+#zonaformulario{
+float:left;
+padding:30px;
+border:2px dotted #000033;
+}
+
+#zonadatos{
+
+float:left;
+width:600px;
+margin-left:50px;
+padding:30px;
+border: 2px dotted #003399;
+
+
+}
+
+</style>
+
+
+<script>
+
+function comenzar(){
+	zonadatos=document.getElementById("zonadatos");
+	var boton = document.getElementById("boton");
+	boton.addEventListener("click",enviar,false);
+	trabajador=new Worker("trabajador.js");
+	trabajador.addEventListener("message",recibido,false);
+}
+
+function enviar(){
+	var nombre=document.getElementById("nombre").value;
+	trabajador.postMessage(nombre);
+}
+
+
+function recibido(e){
+	zonadatos.innerHTML=e.data;
+}
+
+
+window.addEventListener("load",comenzar,false);
+</script>
+</head>
+
+<body>
+
+<section id= "zonaformulario">
+
+	<form name="formaulario">
+	
+	<p> Nombre: <br> <input type="text" id="nombre">
+	</p>
+	<p><input type="button" id="boton" value="Enviar"></p>
+
+</section>
+
+<section id="zonadatos">
+
+
+
+</section>
+</body>
+</html>

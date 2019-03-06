@@ -1,0 +1,72 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>Documento sin título</title>
+<link rel="stylesheet" href="estilos.css">
+<script>
+function comenzar(){
+zonadatos=document.getElementById("zonadatos");
+var boton=document.getElementById("boton");
+boton.addEventListener("click",escribir_archivo,false);
+navigator.webkitPersistentStorage.requestQuota(5*1024*1024,acceso);
+}
+
+function acceso(){
+window.webkitRequestFileSystem(PERSISTENT,5*1024*1024,crearsis,errores);
+}
+function crearsis(sistema){
+espacio=sistema.root;
+}
+
+function escribir_archivo(){
+var nombre=document.getElementById("origen").value;
+espacio.getFile(nombre,{create:true , exclusive:false},function (entrada){entrada.createWriter(escribir_contenido,errores);},errores);
+}
+
+function escribir_contenido(fileWriter){
+var texto=document.getElementById("texto").value;
+fileWriter.onwriteend=exito();
+var blob = new Blob([texto],{type:"text/html"});
+fileWriter.write(blob);
+}
+
+function exito(){
+
+document.getElementById("origen").value="";
+document.getElementById("texto").value="";
+zonadatos.innerHTML="Archivo creado";
+} 
+
+function errores(e){
+alert("Ha habido un error"+e.code);
+
+
+}
+window.addEventListener("load",comenzar,false);
+</script>
+</head>
+
+<body>
+
+<div id="contenedor">
+
+	<section id="zonaformulario">
+    
+    	<form name="formulario">
+    
+    		<p>Archivo:<br><input type="text" name="entrada" id="origen" required></p>
+           
+		   <p>Texto:<br><textarea name="entrada" id="texto" required></textarea></p>
+           
+		    
+            <p><input type="button" name="boton" id="boton" value="Aceptar"></p>
+		</form>    
+    </section>
+    
+    <section id="zonadatos">
+    
+    	No hay información     </section>
+</div>
+</body>
+</html>

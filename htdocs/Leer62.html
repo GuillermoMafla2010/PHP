@@ -1,0 +1,74 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>Documento sin título</title>
+<link rel="stylesheet" href="estilos.css">
+<script>
+function comenzar(){
+zonadatos=document.getElementById("zonadatos");
+var boton=document.getElementById("boton");
+boton.addEventListener("click",leer_archivo,false);
+navigator.webkitPersistentStorage.requestQuota(5*1024*1024,acceso);
+}
+
+function acceso(){
+window.webkitRequestFileSystem(PERSISTENT,5*1024*1024,crearsis,errores);
+}
+function crearsis(sistema){
+espacio=sistema.root;
+}
+
+function leer_archivo(){
+var nombre=document.getElementById("origen").value;
+espacio.getFile(nombre,{create:true , exclusive:false},function (entrada){entrada.file(leer_contenido,errores);},errores);
+}
+
+function leer_contenido(archivo){
+
+zonadatos.innerHTML="Nombre:"+archivo.name+"<br>";
+zonadatos.innerHTML+="Tamaño:"+archivo.size+"bytes <br>";
+var lector=new FileReader();
+lector.onload=exito;
+lector.readAsText(archivo);
+}
+
+function exito(e){
+var resultado=e.target.result;
+document.getElementById("origen").value="";
+zonadatos.innerHTML+="Contenido:"+ resultado;
+
+}
+
+function errores(e){
+alert("Ha habido un error"+e.code);
+
+
+}
+window.addEventListener("load",comenzar,false);
+</script>
+</head>
+
+<body>
+
+<div id="contenedor">
+
+	<section id="zonaformulario">
+    
+    	<form name="formulario">
+    
+    		<p>Buscar:<br><input type="text" name="entrada" id="origen" required></p>
+           
+		  
+           
+		    
+            <p><input type="button" name="boton" id="boton" value="Aceptar"></p>
+		</form>    
+    </section>
+    
+    <section id="zonadatos">
+    
+    	No hay información     </section>
+</div>
+</body>
+</html>

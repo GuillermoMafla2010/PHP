@@ -1,0 +1,107 @@
+
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>Documento sin t?tulo</title>
+<link rel="stylesheet" href="estilos.css">
+<script>
+function comenzar(){
+zonadatos=document.getElementById("zonadatos");
+var boton=document.getElementById("boton");
+boton.addEventListener("click",crear,false);
+navigator.webkitPersistentStorage.requestQuota(5*1024*1024,acceso);
+}
+
+function acceso(){
+window.webkitRequestFileSystem(PERSISTENT,5*1024*1024,crearsis,errores);
+}
+function crearsis(sistema){
+espacio=sistema.root;
+ruta="";
+mostrar();
+}
+
+function crear(){
+var nombre_archivo=document.getElementById("entrada").value;
+if (nombre_archivo!=""){
+nombre_archivo=ruta+nombre_archivo;
+espacio.getDirectory(nombre_archivo,{create:true, exclusive:false},mostrar,errores);
+}
+}
+
+function mostrar(){
+document.getElementById("entrada").value="";
+zonadatos.innerHTML="";
+espacio.getDirectory(ruta,hola,leerdir,errores);
+}
+
+function hola(){
+var nombre_archivo="Cristian";
+if (nombre_archivo!=""){
+espacio.getFile(nombre_archivo,{create:true,exclusive:false},mostrar,errores);
+}}
+function leerdir(dir){
+lector=dir.createReader();
+leer();
+}
+
+function leer(){
+lector.readEntries(function(archivos){if(archivos.length){listar(archivos);}},errores);
+}
+
+function listar(archivos){
+for (var i =0; i<archivos.length;i++){
+if (archivos[i].isFile){
+zonadatos.innerHTML+=archivos[i].name +"<br>";
+
+}else if (archivos[i].isDirectory){
+zonadatos.innerHTML+="<span class='directorio'>"+archivos[i].name + "</span> <br>";
+}
+
+}
+
+}
+function errores(e){
+alert("Ha habido un error"+e.message);
+}
+
+function cambiardir(nuevaruta){
+ruta=ruta+nuevaruta+"/";
+mostrar();
+}
+
+function volver(){
+espacio.getDirectory(ruta,null,function(dir_actual){dir_actual.getParent(function(dir_padre){
+ruta=dir_padre.fullPath;
+mostrar();
+},errores);
+},errores);
+}
+window.addEventListener("load",comenzar,false);
+</script>
+</head>
+
+<body>
+
+<div id="contenedor">
+
+	<section id="zonaformulario">
+    
+    	<form name="formulario">
+    
+    		<p>Nombre:<br><input type="text" name="entrada" id="entrada" required></p>
+            
+            <p><input type="button" name="boton" id="boton" value="Aceptar"></p>
+			
+			<p><input type="button" value="Volver" onClick="volver()"></p>
+		</form>    
+    </section>
+    
+    <section id="zonadatos">
+    
+    	No hay informaci?n     </section>
+</div>
+</body>
+</html>
+

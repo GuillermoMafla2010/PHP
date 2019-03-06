@@ -1,0 +1,40 @@
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+<title>Documento sin t&iacute;tulo</title>
+<script>
+
+function comenzar(){
+trabajador= new SharedWorker("trabajadorcompartido70.js");
+trabajador.port.addEventListener("message",recibido,false);
+trabajador.port.start();
+
+}
+
+
+function recibido(e){
+
+zonadatos=document.getElementById("zonadatos");
+zonadatos.innerHTML=e.data;
+
+}
+
+
+
+window.addEventListener("load",comenzar,false);
+
+</script>
+
+
+</head>
+
+<body>
+
+<section id="zonadatos">
+
+
+
+
+</section>
+</body>
+</html>

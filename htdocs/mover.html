@@ -1,0 +1,116 @@
+
+
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>Documento sin t?tulo</title>
+<link rel="stylesheet" href="estilos.css">
+<script>
+function comenzar(){
+zonadatos=document.getElementById("zonadatos");
+var boton=document.getElementById("boton");
+boton.addEventListener("click",modificar,false);
+navigator.webkitPersistentStorage.requestQuota(5*1024*1024,acceso);
+}
+
+function modificar(){
+var origen=document.getElementById("origen").value;
+var destino=document.getElementById("destino").value;
+espacio.getFile(origen,null,function(archivo){espacio.getDirectory(destino,null,function(directorio){archivo.moveTo(directorio,null,exito,errores);},errores);},errores);}
+
+function exito(){
+document.getElementById("origen").value="";
+document.getElementById("destino").value="";
+mostrar();
+
+}
+function acceso(){
+window.webkitRequestFileSystem(PERSISTENT,5*1024*1024,crearsis,errores);
+}
+function crearsis(sistema){
+espacio=sistema.root;
+ruta="";
+mostrar();
+}
+
+function crear(){
+var nombre_archivo=document.getElementById("origen").value;
+if (nombre_archivo!=""){
+nombre_archivo=ruta+nombre_archivo;
+espacio.getDirectory(nombre_archivo,{create:true, exclusive:false},mostrar,errores);
+}
+}
+
+function mostrar(){
+document.getElementById("origen").value="";
+zonadatos.innerHTML="";
+espacio.getDirectory(ruta,null,leerdir,errores);
+}
+
+function leerdir(dir){
+lector=dir.createReader();
+leer();
+}
+
+function leer(){
+lector.readEntries(function(archivos){if(archivos.length){listar(archivos);}},errores);
+}
+
+function listar(archivos){
+for (var i =0; i<archivos.length;i++){
+if (archivos[i].isFile){
+zonadatos.innerHTML+=archivos[i].name +"<br>";
+
+}else if (archivos[i].isDirectory){
+zonadatos.innerHTML+="<span class='directorio'>"+archivos[i].name + "</span> <br>";
+}
+
+}
+
+}
+function errores(e){
+alert("Ha habido un error"+e.message);
+}
+
+function cambiardir(nuevaruta){
+ruta=ruta+nuevaruta+"/";
+mostrar();
+}
+
+function volver(){
+espacio.getDirectory(ruta,null,function(dir_actual){dir_actual.getParent(function(dir_padre){
+ruta=dir_padre.fullPath;
+mostrar();
+},errores);
+},errores);
+}
+window.addEventListener("load",comenzar,false);
+</script>
+</head>
+
+<body>
+
+<div id="contenedor">
+
+	<section id="zonaformulario">
+    
+    	<form name="formulario">
+    
+    		<p>Archivo a mover:<br><input type="text" name="origen" id="origen" required></p>
+            
+			<p>Directorio Destino:<br><input type="text" name="destino" id="destino" required></p>
+            
+            <p><input type="button" name="boton" id="boton" value="Aceptar"></p>
+			
+			
+		</form>    
+    </section>
+    
+    <section id="zonadatos">
+    
+    	No hay informaci?n     </section>
+</div>
+</body>
+</html>
+

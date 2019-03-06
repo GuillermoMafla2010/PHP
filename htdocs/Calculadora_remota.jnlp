@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<jnlp spec="1.0+"  codebase="http://localhost:8080" href="Calculadora_remota.jnlp">
+<information>
+	<title>Demostracion de aplicacion de Calculadora</title>
+	<vendor>Juan</vendor>
+	<description>Una calculadora</description>
+	
+</information>
+<resources>
+	<j2se version="5.0+"/>
+	<jar href="Calculadora.jar"/>
+</resources>
+<application-desc main-class="grillalayout">
+</application-desc>
+
+</jnlp> 
